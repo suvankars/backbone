@@ -23,5 +23,17 @@ Here you have the option to pass parameters that will be attached to a model, co
 render:
 This function inject markup into DOM element.  
 events:
+events could be mixed up with any object and give it to a pub/sub behaviour (observer pattern).
+Events module provide couple of method such as 'on', 'off' and 'trigger'
+
+example: 
+It bind an Object to an event and when the event is triggered callback is executed.
+object.on(event, callback, [context])
+
+todoList.on('add', this.addAll, this);
+Every time a new ited is 'add'ed to the Backbone.Collection the event 'add' is triggered, after that this.addAll callback is executed
+with context of current object, 'this', in this case.
+ 
+
 
 

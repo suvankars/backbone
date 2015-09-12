@@ -20,7 +20,7 @@
 	<script type="text/template" id="item-template">
 			<div class="view">
 				<input class="toggle" type="checkbox">
-				<label><%- titile %></label>
+				<label><%- title %></label>
 			</div>
 	
 	</script>
@@ -49,6 +49,62 @@
 	
 	app.todoList = new app.TodoList();
 
+	//render invidual todo item
+	app.TodoView = Backbone.View.extend({
+		tagName: 'li',
+		template: _.template($('#item-template').html()),
+		render: function(){
+			this.$el.html(this.template(this.model.toJSON()));
+			return this;
+		}
+	});
+	var view = new app.TodoView({model: app.Todo});
+	var todo = new app.Todo;
+
+//	//RnD with custom event with underscore js 
+//	//We can bind an event to an arbitrary object
+//	var object = {};
+//	var callback = function(msg){console.log("Trigggerd " + msg )};
+//	_.extend(object, Backbone.Events);
+//	object.on("my evet", callback);
+//	object.trigger("my evet", "My custom Event");
+
+	app.AppView = Backbone.View.extend({
+		el: '#todoapp',
+		initialize: function(){
+			this.input = this.$('#new-todo');
+			app.todoList.on('add', this.addOne, this);
+			app.todoList.on('reset', this.addAll, this);	
+			app.todoList.fetch();
+		},
+		events: {
+			 'keypress #new-todo': 'createTodoOnEnter'
+		},
+		createTodoOnEnter: function(e){
+			if( e.which !== 13 || !this.input.val().trim()){
+				return;
+			}
+			app.todoList.create(this.newAttributes());
+			this.input.val('');
+		},
+		newAttributes: function(){
+			return{
+				title: this.input.val().trim(),
+				completed: false
+			}
+		},
+		addOne: function(todo){
+			var view = new app.TodoView({model: todo});
+			$('#todo-list').append(view.render().el);
+		},	
+		addAll: function(){
+			this.$('#todo-list').html('');
+			app.todoList.each(this.addOne, this);
+		}
+
+	});
+	
+	app.view = new app.AppView();
 </script>
 
 </body>
