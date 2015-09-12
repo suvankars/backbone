@@ -21,6 +21,7 @@
 			<div class="view">
 				<input class="toggle" type="checkbox">
 				<label><%- title %></label>
+				<button class="destroy">remove</button>
 			</div>
 	
 	</script>
@@ -50,15 +51,26 @@
 	app.todoList = new app.TodoList();
 
 	//render invidual todo item
-	app.TodoView = Backbone.View.extend({
-		tagName: 'li',
-		template: _.template($('#item-template').html()),
-		render: function(){
-			this.$el.html(this.template(this.model.toJSON()));
-			return this;
-		}
-	});
-	var view = new app.TodoView({model: app.Todo});
+	 app.TodoView = Backbone.View.extend({
+      tagName: 'li',
+      template: _.template($('#item-template').html()),
+      render: function(){
+        this.$el.html(this.template(this.model.toJSON()));
+        return this; // enable chained calls
+      },
+      initialize: function(){
+        this.model.on('destroy', this.remove, this); 
+      },      
+      events: {
+        'click .destroy': 'destroy'
+      },
+      
+      destroy: function(){
+        this.model.destroy();
+      }      
+    });
+
+//	var view = new app.TodoView({model: app.Todo});
 	var todo = new app.Todo;
 
 //	//RnD with custom event with underscore js 
@@ -78,13 +90,16 @@
 			app.todoList.fetch();
 		},
 		events: {
-			 'keypress #new-todo': 'createTodoOnEnter'
+			 'keypress #new-todo': 'createTodoOnEnter',
 		},
+
+		
+
 		createTodoOnEnter: function(e){
 			if( e.which !== 13 || !this.input.val().trim()){
 				return;
 			}
-			app.todoList.create(this.newAttributes());
+			app.todoList.create(this.newAttributes());//Creating a todo, json object passed as parameter 
 			this.input.val('');
 		},
 		newAttributes: function(){
