@@ -1,12 +1,13 @@
 var app = app || {};
 
-app.View = Backbone.view.extend({
-	tagName: 'div',
-	className: 'bookContainer',
-	template: _template($('bookTemplate').html() ),
+app.BookView = Backbone.View.extend({
+    tagName: 'div',
+    className: 'bookContainer',
+    template: _.template( $( '#libraryTemplate' ).html() ),
 
-	render: function(){
-		//this.el is what we defined in tagName
-		this.$el.html( this.template( this.model.attributes ) )
-	}
+    render: function() {
+        this.$el.html( this.template( this.model.attributes ) );
+
+        return this;
+    }
 });

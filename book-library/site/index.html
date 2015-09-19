@@ -6,16 +6,7 @@
         <link rel="stylesheet" href="css/screen.css">
     </head>
     <body>
-        <script type="text/template" id="libraryTemplate">    
-            <img src="<%- coverImage %>">
-            <ul>
-                <li><%- title %></li>
-                <li><%- author %></li>
-                <li><%- releaseDate %></li>
-                <li><%- keywords %></li>
-            </ul>   
-            <button class="destroy"> Delete </button>
-        </script>
+        
 
         <div id="books">
             <form id="addBook" action="#">
@@ -30,23 +21,30 @@
             </form>
         </div>
 
-        <div class="bookContainer">
-    <img src="img/placeholder.png"/>
-    <ul>
-        <li>Title</li>
-        <li>Author</li>
-        <li>Release Date</li>
-        <li>Keywords</li>
-    </ul>
-
-    <button class="delete">Delete</button>
-</div>
+          
+        <script type="text/template" id="libraryTemplate">    
+            <img src="<%- coverImage %>">
+            <ul>
+                <li><%- title %></li>
+                <li><%- author %></li>
+                <li><%- releaseDate %></li>
+                <li><%- keywords %></li>
+            </ul>   
+            <button class="destroy"> Delete </button>
+        </script>
 
         <!-- Libraries -->
-        <script src="js/lib/jquery.min.js"></script>
-        <script src="js/lib/underscore-min.js"></script>
-        <script src="js/lib/backbone-min.js"></script>
-        <script src="js/models/book.js">
+        <script src="js/lib/jquery.js"></script>
+        <script src="js/lib/underscore.js"></script>
+        <script src="js/lib/backbone.js"></script>
+
+        <script src="js/models/book.js"></script>
+        <script src="js/collections/library.js"></script>
+        <script src="js/views/book.js"></script>
+        <script src="js/views/library.js"></script>
+        <script src="js/mock/data.js"></script>
+
+
         
 
     </body>
