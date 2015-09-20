@@ -57,6 +57,7 @@ app.configure( function() {
 });
 
 
+// Get list of all book in the Library 
 app.get( '/api/books', function( request, response ) {
     return BookModel.find( function( err, books ) {
         if( !err ) {
@@ -86,3 +87,52 @@ app.post( '/api/books', function( request, response ) {
         }
     });
 });
+
+// Get a single book from Library
+app.get( '/api/books/:id', function( request, response ){
+    console.log( "started serving API" );
+    return BookModel.findById(request.params.id, function(err, book){
+        if(!err){
+            return response.send( book ) ;
+        } else {
+            console.log( err );
+        }
+    });
+});
+
+//Update a book information 
+app.put( '/api/books/:id', function( request, response ){
+    return BookModel.findById( request.params.id, function( err, book ){
+        book.title = request.body.title;
+        book.author = request.body.author;
+        book.releaseDate = request.body.releaseDate;
+
+        return book.save( function( err ){
+            if(!err){
+                console.log( "Book information updated");
+                return response.send( book );
+            } else{
+                console.log( err );
+            }
+        });
+
+
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
